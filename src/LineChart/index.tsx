@@ -32,6 +32,10 @@ let initialData = null;
 let animations = [];
 
 type propTypes = {
+  minSysLimit:number
+  maxSysLimit:number
+  minDiaLimit:number
+  maxDiaLimit:number
   height?: number;
   noOfSections?: number;
   maxValue?: number;
@@ -2626,6 +2630,8 @@ export const LineChart = (props: propTypes) => {
     textFontSize,
     startIndex,
     endIndex,
+    minBpValue,
+    maxBpValue
   ) => {
     return dataForRender.map((item: itemType, index: number) => {
       if (index < startIndex || index > endIndex) return null;
@@ -2660,7 +2666,7 @@ export const LineChart = (props: propTypes) => {
           item.focusedDataPointColor ||
           props.focusedDataPointColor ||
           item.dataPointColor ||
-          dataPtsColor;
+          (item.value < minBpValue || item.value > maxBpValue) ? '#ED2B1F' : dataPtsColor;
         dataPointsRadius =
           item.focusedDataPointRadius ||
           props.focusedDataPointRadius ||
@@ -2680,7 +2686,7 @@ export const LineChart = (props: propTypes) => {
         dataPointsShape = item.dataPointShape || dataPtsShape;
         dataPointsWidth = item.dataPointWidth || dataPtsWidth;
         dataPointsHeight = item.dataPointHeight || dataPtsHeight;
-        dataPointsColor = item.dataPointColor || dataPtsColor;
+        dataPointsColor = item.dataPointColor || (item.value < minBpValue || item.value > maxBpValue) ? '#ED2B1F' : dataPtsColor;
         dataPointsRadius = item.dataPointRadius || dataPtsRadius;
         if (showTextOnPress) {
           text = '';
@@ -3187,6 +3193,8 @@ export const LineChart = (props: propTypes) => {
               textFontSize1,
               startIndex1,
               endIndex1,
+              props.minSysLimit,
+              props.maxSysLimit
             )
           : null}
         {!hideDataPoints2
@@ -3201,6 +3209,8 @@ export const LineChart = (props: propTypes) => {
               textFontSize2,
               startIndex2,
               endIndex2,
+              props.minDiaLimit,
+              props.maxDiaLimit
             )
           : null}
         {!hideDataPoints3
@@ -3215,6 +3225,8 @@ export const LineChart = (props: propTypes) => {
               textFontSize3,
               startIndex3,
               endIndex3,
+              props.minDiaLimit,
+              props.maxDiaLimit
             )
           : null}
         {!hideDataPoints4
@@ -3229,6 +3241,8 @@ export const LineChart = (props: propTypes) => {
               textFontSize4,
               startIndex4,
               endIndex4,
+              props.minDiaLimit,
+              props.maxDiaLimit
             )
           : null}
         {!hideDataPoints5
@@ -3243,6 +3257,8 @@ export const LineChart = (props: propTypes) => {
               textFontSize5,
               startIndex5,
               endIndex5,
+              props.minDiaLimit,
+              props.maxDiaLimit
             )
           : null}
         {showArrow && (
